@@ -6,6 +6,10 @@ name = "pypi"
 [packages]
 fastapi = "*"
 uvicorn = {extras = ["standard"], version = "*"}
+sqlalchemy = "*"
+jose = "*"
+environ = "*"
+jinja2 = "*"
 
 [dev-packages]
 
