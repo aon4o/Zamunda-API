@@ -2,10 +2,10 @@ from fastapi import FastAPI, Request
 from starlette.templating import Jinja2Templates
 
 import models
-from database import engine
+from database import engine, Base
 from routers import users, torrents, admin
 
-models.Base.metadata.create_all(bind=engine)
+Base.metadata.create_all(bind=engine)
 templates = Jinja2Templates(directory="templates")
 
 app = FastAPI()
