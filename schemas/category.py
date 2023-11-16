@@ -1,3 +1,5 @@
+import datetime
+
 from pydantic import BaseModel
 
 from schemas.torrent import Torrent
@@ -12,7 +14,7 @@ class Category(BaseModel):
     id: int
     name: str
     order: int
-    created_at: str
-    updated_at: str
+    created_at: datetime.datetime
+    updated_at: datetime.datetime
 
-    sub_categories: list[SubCategory] = []
+    # sub_categories: list[SubCategory] = []
