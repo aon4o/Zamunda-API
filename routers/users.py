@@ -1,11 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from crud import user as user_crud
 from crud import torrents as torrent_crud
-from schemas import user as schema
+from crud import user as user_crud
+from dependencies import get_db
 from schemas import torrent as torrent_schema
-from dependencies import get_db, get_token_header
+from schemas import user as user_schema
 
 router = APIRouter(
     prefix="/users",
@@ -15,22 +15,22 @@ router = APIRouter(
 )
 
 
-@router.post("/", response_model=schema.User)
-def create_user(user: schema.UserCreate, db: Session = Depends(get_db)):
+@router.get("/", response_model=list[user_schema.User])
+def index(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    users = user_crud.get_users(db, skip=skip, limit=limit)
+    return users
+
+
+@router.post("/", response_model=user_schema.User)
+def create(user: user_schema.UserCreate, db: Session = Depends(get_db)):
     db_user = user_crud.get_user_by_email(db, email=user.email)
     if db_user:
         raise HTTPException(status_code=400, detail="Email already registered")
     return user_crud.create_user(db=db, user=user)
 
 
-@router.get("/", response_model=list[schema.User])
-def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    users = user_crud.get_users(db, skip=skip, limit=limit)
-    return users
-
-
-@router.get("/{user_id}", response_model=schema.User)
-def read_user(user_id: int, db: Session = Depends(get_db)):
+@router.get("/{user_id}", response_model=user_schema.User)
+def show(user_id: int, db: Session = Depends(get_db)):
     db_user = user_crud.get_user(db, user_id=user_id)
     if db_user is None:
         raise HTTPException(status_code=404, detail="User not found")

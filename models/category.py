@@ -15,4 +15,4 @@ class Category(Base):
     created_at = Column(TIMESTAMP, default=datetime.now())
     updated_at = Column(TIMESTAMP, default=datetime.now())
 
-    sub_categories = relationship('SubCategory')
+    sub_categories = relationship('SubCategory', back_populates='category')

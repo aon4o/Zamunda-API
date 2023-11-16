@@ -16,5 +16,5 @@ class SubCategory(Base):
     created_at = Column(TIMESTAMP, default=datetime.now())
     updated_at = Column(TIMESTAMP, default=datetime.now())
 
-    category = relationship('Category')
-    torrents = relationship('Torrent')
+    category = relationship('Category', back_populates='sub_categories')
+    torrents = relationship('Torrent', back_populates='sub_category')
