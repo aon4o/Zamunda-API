@@ -8,7 +8,7 @@ API for Project Zamunda Clone
 * [Running the project](#running-the-project)
 
 ## Requirements
-* Python 3.10
+* Python 3.11
 * Pipenv
 
 ## Installation
